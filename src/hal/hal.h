@@ -22,12 +22,14 @@ extern "C" {
 /***** System headers *******************************************************/
 #include "pico/stdlib.h"
 #include "hardware/irq.h"
-#define ALARM_NUM 0
-#define ALARM_IRQ 0
-
+#include "hardware/clocks.h"
+#include "hardware/sync.h"
+#include "../mrubyc.h"
 
 /***** Local headers ********************************************************/
 /***** Constant values ******************************************************/
+#define ALARM_IRQ 0
+
 /***** Macros ***************************************************************/
 #if !defined(MRBC_TICK_UNIT)
 #define MRBC_TICK_UNIT_1_MS   1
@@ -46,9 +48,9 @@ extern "C" {
 
 #ifndef MRBC_NO_TIMER
 void hal_init(void);
-void hal_enable_irq(void);
-void hal_disable_irq(void);
-void hal_idle_cpu(void);
+# define hal_enable_irq()  irq_set_enabled(ALARM_IRQ, true)
+# define hal_disable_irq() irq_set_enabled(ALARM_IRQ, false)
+# define hal_idle_cpu()    __wfi()
 #else // MRBC_NO_TIMER
 # define hal_init()        ((void)0)
 # define hal_enable_irq()  ((void)0)

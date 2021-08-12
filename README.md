@@ -15,8 +15,8 @@
 - Clone this repository wherever you like
 
     ```
-    git clone --recursive https://github.com/hasumikin/mrubyc-pico-l-chika.git # Don't forget --recursive
-    cd mrubyc-pico-l-chika/build
+    git clone --recursive https://github.com/hasumikin/mrubyc-pico.git # Don't forget --recursive
+    cd mrubyc-pico/build
     ```
 
 - Build with `cmake` and `make`

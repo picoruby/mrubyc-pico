@@ -15,7 +15,7 @@ pico_sdk_init()
 add_compile_options(-DMRBC_USE_HAL_RP2040 -DMRBC_REQUIRE_32BIT_ALIGNMENT -DMAX_REGS_SIZE=256 -DMAX_SYMBOLS_COUNT=500)
 
 add_executable(l-chika
-  main.c
+  src/main.c
   mrubyc/src/alloc.c
   mrubyc/src/c_array.c
   mrubyc/src/c_hash.c
@@ -35,16 +35,36 @@ add_executable(l-chika
   mrubyc/src/symbol.c
   mrubyc/src/value.c
   mrubyc/src/vm.c
-  mrubyc/src/hal_rp2040/hal.c
+  mrubyc/hal/rp2040/hal.c
+)
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+  ${CMAKE_SOURCE_DIR}/mrubyc/src
+  ${CMAKE_SOURCE_DIR}/mrubyc/hal/rp2040
 )
 
 add_dependencies(l-chika
-  mrubyc
+  mrblib main_task
 )
 
-add_custom_target(mrubyc
-  COMMAND make distclean all
+add_custom_command(
+  OUTPUT ${CMAKE_SOURCE_DIR}/mrubyc/src/mrblib.c
   WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/mrubyc/mrblib
+  COMMAND make
+)
+
+add_custom_target(mrblib
+  DEPENDS ${CMAKE_SOURCE_DIR}/mrubyc/src/mrblib.c
+)
+
+add_custom_command(
+  OUTPUT ${CMAKE_SOURCE_DIR}/src/main_task.c
+  WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/src
+  COMMAND RBENV_VERSION=mruby-3.3.0 mrbc -B main_task -o main_task.c main_task.rb
+)
+
+add_custom_target(main_task
+  DEPENDS ${CMAKE_SOURCE_DIR}/src/main_task.c
 )
 
 # Pull in our pico_stdlib which pulls in commonly used features

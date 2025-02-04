@@ -1,48 +1,58 @@
 # A sample mruby/c project for Raspberry Pi Pico
 
 
-### Getting started
+## Getting started
 
 - Setup Raspberry Pi Pico C/C++ SDK
-  - Install mrbc by `rbenv install mruby-3.3.0`
 
   - Follow the instructions on [https://github.com/raspberrypi/pico-sdk#quick-start-your-own-project](https://github.com/raspberrypi/pico-sdk#quick-start-your-own-project)
     - Make sure you have `PICO_SDK_PATH` environment variable
 
-  - Be knowledgeable how to install a UF2 file into Raspi Pico on [https://www.raspberrypi.org/documentation/rp2040/getting-started/#getting-started-with-c](https://www.raspberrypi.org/documentation/rp2040/getting-started/#getting-started-with-c)
-
   - [https://learn.sparkfun.com/tutorials/pro-micro-rp2040-hookup-guide](https://learn.sparkfun.com/tutorials/pro-micro-rp2040-hookup-guide) will also help you if you use Sparkfun Pro Micro RP2040
+
+- Install mrbc (mruby compiler)
+
+    ```console
+    rbenv install mruby-3.3.0
+    ```
 
 - Clone this repository
 
-    ```
-    git clone --recursive https://github.com/hasumikin/mrubyc-pico.git # Don't forget --recursive
+    ```console
+    git clone --recursive https://github.com/picoruby/mrubyc-pico.git # Don't forget --recursive
     cd mrubyc-pico
     ```
 
 - Build with `cmake` and `make`
 
-    ```
+    ```console
     cd build
     cmake ..
     # cmake -DCMAKE_BUILD_TYPE=Debug .. # You can debug with picoprobe
     make
     ```
 
-    Now you should have `l-chika.uf2` file in `build/` directory.
+    Now you should have `l-chika.uf2` file in `build` directory.
 
-### "l-chika" ?
+- Install
+
+    - Connect a USB cable to Raspi Pico while pressing BOOTSEL button
+    - You'll find `RPI-RP2` drive mounted in your PC's filer
+    - Drag and drop `l-chika.uf2` into the drive
+    - The LED on the Pico will start blinking. If not, you missed something
+
+## "l-chika" ?
 
 It means "LED blinking" in Japanese.
 
-### Acknowledgement
+## Acknowledgement
 
 This project is a successor of [aikawaYO/mrubyc-pico](https://github.com/aikawaYO/mrubyc-pico) which used mruby/c version 2.x.
 
-### Contributing
+## Contributing
 
 Fork, clone, patch and send a pull request.
 
-### License
+## License
 
 MIT License.
